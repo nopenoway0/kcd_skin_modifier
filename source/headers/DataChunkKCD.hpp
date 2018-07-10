@@ -51,7 +51,7 @@ public:
 
     uint32_t getDataChunkType();
 
-    char* getBodyAsBytes(int& s) override;
+    char* asBytes(int& s) override;
 };
 
 #endif

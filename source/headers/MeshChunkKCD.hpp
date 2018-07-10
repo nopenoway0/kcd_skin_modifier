@@ -21,6 +21,8 @@ public:
 	~MeshChunkKCD();
 
 	void load(ifstream& f) override;
+
+	char* asBytes(int& size) override;
 };
 
 #endif

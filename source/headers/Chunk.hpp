@@ -1,10 +1,11 @@
 #ifndef CHUNK
 #define CHUNK
 #include <iostream>
-
+#include "Bytable.hpp"
 using std::ifstream;
+
 template <class T>
-class Chunk{
+class Chunk : public Bytable{
 protected:
 	T* chunk_header;
 public:
@@ -25,7 +26,7 @@ public:
 		return *chunk_header;
 	}
 
-	virtual char* getBodyAsBytes(int& s){
+	char* asBytes(int& s) override{
 		s = 0;
 		std::cerr << "unimplemented body as bytes" << std::endl;
 		return nullptr;

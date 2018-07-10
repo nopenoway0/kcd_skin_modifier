@@ -42,7 +42,6 @@ void DataChunkKCD::loadVertices(ifstream& f){
 		f.read((char*) &y, 4);
 		f.read((char*) &z, 4);
 		Coordinates c = {x, y, z};
-		//printf("x:%f y:%f z:%f \n", c.x, c.y, c.z);
 		tmpdata->addCoordinates(c);
 	}
 	data = tmpdata;
@@ -56,14 +55,16 @@ uint32_t DataChunkKCD::getDataChunkType(){
 	return stream_type;
 }
 
-char* DataChunkKCD::getBodyAsBytes(int& s){
-	char* result = data->toBytes(s);
+char* DataChunkKCD::asBytes(int& s){
+	char* result = data->asBytes(s);
 	char* complete_data = new char[s + 14 + 10];
+	// do pre designated DataChunk information
 	memcpy(complete_data, &prefix, 4);
 	memcpy(&complete_data[4], &stream_type, 4);
 	memcpy(&complete_data[8], &element_amt, 4);
 	memcpy(&complete_data[12], &element_size, 2);
-	memcpy(&complete_data[14], &padding, 10);
+	memcpy(&complete_data[14], padding, 10);
+	// write data from data chunk
 	memcpy(&complete_data[24], result, s);
 	delete [] result;
 	s += 24;

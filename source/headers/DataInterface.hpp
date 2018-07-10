@@ -1,25 +1,19 @@
 #ifndef DATAINTERFACE
 #define DATAINTERFACE
-
+#include "Bytable.hpp"
 #include <typeinfo>
 #include <string>
-class DataInterface{
+class DataInterface : public Bytable{
 protected:
-	const std::type_info* data_type;
 public:
-	DataInterface(const std::type_info& type){
-		data_type = &type;
+	DataInterface(){
 	};
 
 	~DataInterface(){};
 
-	virtual char* toBytes(int& size){
+	virtual char* asBytes(int& size){
 		size = 0;
 		return nullptr;
-	}
-
-	std::string getTypeName(){
-		return data_type->name();
 	}
 };
 

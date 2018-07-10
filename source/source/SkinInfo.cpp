@@ -9,6 +9,7 @@ using std::cerr;
 using std::string;
 
 SkinInfo::SkinInfo(ifstream& file){
+	cout << "in skin info" << endl;
 	chunk_amt = 0; chunk_offset = 0, version = 0;
 	signature = new char[VERSION_LENGTH];
 	file.read(signature, VERSION_LENGTH);

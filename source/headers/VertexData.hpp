@@ -14,7 +14,8 @@ public:
 	VertexData();
 	~VertexData();
 	void addCoordinates(Coordinates c);
-	char* toBytes(int& size) override;
+	void addCoordinates(float x, float y, float z);
+	char* asBytes(int& size) override;
 };
 
 #endif

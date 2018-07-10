@@ -21,6 +21,7 @@ public:
 	uint32_t getHeaderStart();
 	~ChunkHeaderKCD();
 	virtual void load(std::ifstream& in) override;
+	virtual char* asBytes(int& size) override;
 };
 
 #endif

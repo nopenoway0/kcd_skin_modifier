@@ -58,3 +58,8 @@ void MeshChunkKCD::load(ifstream& f){
 
 	cout << mesh_subsets << endl;
 }
+
+char* MeshChunkKCD::asBytes(int& size){
+	cerr << "asBytes method not implemented" << endl;
+	throw "asBytes method not implemented";
+}

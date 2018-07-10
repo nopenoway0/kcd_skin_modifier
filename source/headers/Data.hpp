@@ -7,12 +7,11 @@ template <class T> class Data : public DataInterface{
 protected:
 	T data;
 public:
-	Data() : DataInterface(typeid(this)) {};
-	Data(const std::type_info& type) : DataInterface(type) {};
+	Data() : DataInterface() {};
 	virtual ~Data(){};
 	
-	T getData(){
-		return data;
+	T* getData(){
+		return &data;
 	};
 };
 
