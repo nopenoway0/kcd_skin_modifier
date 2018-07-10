@@ -24,7 +24,7 @@ void rotate90x(Coordinates& c)
 VertexChunkOBJ readOBJ(string filename);
 
 int main(){
-	//vector<Coordinates> obj_coords = readOBJ("bernard_yikes.obj").getVertices();
+	vector<Coordinates> obj_coords = readOBJ("bernard.obj").getVertices();
 	// temporary permamenent test name
 	ifstream file("bernard.skin", ifstream::in | ifstream::binary);
 	if(!file.is_open()){
@@ -50,9 +50,7 @@ int main(){
 					//TODO: coordinate detection suffers because of rotation not matching model as it is rotated
 					//during conversion and importion into blender
 					//if(round(c->x * 100000) / 100000 == 0.06279)
-					//printf("x:%f y:%f z:%f\n", c->x, c->y, c->z);
-					//c->x = obj_coords.at(x).x; c->y = obj_coords.at(x).y; c->z = obj_coords.at(x).z;
-					//rotate90x(*c);
+					c->x = obj_coords.at(x).x; c->y = obj_coords.at(x).y; c->z = obj_coords.at(x).z;
 				}
 				// end modification here 
 				ChunkWriterKCD writer;
