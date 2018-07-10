@@ -1,0 +1,1 @@
+All chunk patterns e.g. reading of bytes from a file and reverse engineering are directly from: Markemp and his CryEngine model converter at https://github.com/Markemp/Cryengine-Converter.
