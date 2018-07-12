@@ -10,6 +10,8 @@
 #include "VertexData.hpp"
 #include "VertexChunkOBJ.hpp"
 #include "ChunkHeaderOBJ.hpp"
+#include "DataChunkVrt.hpp"
+#include "ChunkHeaderVrt.hpp"
 #include "math.h"
 using namespace std;
 
@@ -22,9 +24,10 @@ void rotate90x(Coordinates& c)
 }
 
 VertexChunkOBJ readOBJ(string filename);
-
+DataChunkVrt readVrt(string filename);
 int main(){
-	vector<Coordinates> obj_coords = readOBJ("bernard.obj").getVertices();
+	auto vrt_chunk = readVrt("file.vert");
+	//vector<Coordinates> obj_coords = readOBJ("bernard.obj").getVertices();
 	// temporary permamenent test name
 	ifstream file("bernard.skin", ifstream::in | ifstream::binary);
 	if(!file.is_open()){
@@ -47,10 +50,13 @@ int main(){
 				vector<Coordinates>* coords = data->getData();
 				for(auto x = 0; x < coords->size(); x++){
 					Coordinates* c = &(coords->at(x));
-					//TODO: coordinate detection suffers because of rotation not matching model as it is rotated
-					//during conversion and importion into blender
-					//if(round(c->x * 100000) / 100000 == 0.06279)
-					c->x = obj_coords.at(x).x; c->y = obj_coords.at(x).y; c->z = obj_coords.at(x).z;
+					try{
+						Coordinates new_c = vrt_chunk.findNewCoords(c->x, c->z, c->y);
+						c->x = new_c.x; c->y = new_c.y; c->z = new_c.z;
+					}catch(...){
+						//TODO: add valid error message
+						cerr << "error occured" << endl;
+					}
 				}
 				// end modification here 
 				ChunkWriterKCD writer;
@@ -70,6 +76,15 @@ VertexChunkOBJ readOBJ(string filename){
 	ifstream f(filename, ifstream::in);
 	VertexChunkOBJ chunk(new ChunkHeaderOBJ(f));
 	f.seekg(0, ifstream::beg);
+	chunk.load(f);
+	f.close();
+	return chunk;
+}
+
+DataChunkVrt readVrt(string filename){
+	cout << filename << " opened" << endl;
+	ifstream f(filename, ifstream::in | ifstream::binary);
+	DataChunkVrt chunk(new ChunkHeaderVrt(f));
 	chunk.load(f);
 	f.close();
 	return chunk;
