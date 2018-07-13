@@ -25,22 +25,25 @@ void rotate90x(Coordinates& c)
 
 VertexChunkOBJ readOBJ(string filename);
 DataChunkVrt readVrt(string filename);
-int main(){
-	auto vrt_chunk = readVrt("file.vert");
-	//vector<Coordinates> obj_coords = readOBJ("bernard.obj").getVertices();
-	// temporary permamenent test name
-	ifstream file("bernard.skin", ifstream::in | ifstream::binary);
+
+int main(int argc, char *argv[]){
+	if(argc <= 2){
+		cout << "--usage\nfilename.verts filename.skin" << endl;
+		exit(1);
+	}
+	string vrt_file = string(argv[1]);
+	string skin_file = string(argv[2]);
+	string dest_file = (argc <= 3) ? skin_file : string(argv[3]);
+	auto vrt_chunk = readVrt(vrt_file);
+	ifstream file(skin_file, ifstream::in | ifstream::binary);
 	if(!file.is_open()){
 		cerr << "file not found" << endl;
 		throw "Not found!";
 	}
-	file.seekg(0, ifstream::end);
-	cout << "size before mods: " << file.tellg() << " bytes" << endl;
 	file.seekg(0, ifstream::beg);
 	SkinInfo s(file);
 	file.close();
 	for(auto chunk : s.chunks){
-		// need to recast chunktype to 16 bits
 		if(chunk->getHeader().getField(CHUNKTYPE) == DataStream){
 			DataChunkKCD* data_chunk = static_cast<DataChunkKCD*>(chunk);
 			if((uint16_t) data_chunk->getDataChunkType() == VERTICES){
@@ -60,13 +63,12 @@ int main(){
 				}
 				// end modification here 
 				ChunkWriterKCD writer;
-				ofstream f("bernard.skin", ofstream::binary | ofstream::out | ofstream::in);
+				ofstream f(dest_file, ofstream::binary | ofstream::out | ofstream::in);
 				writer.writeChunk(*data_chunk, f);
 				f.close();
 			}
 		}
 	}
-	cout << "version: 0x" << hex << s.getVersion();
 	file.close();
 	return 1;
 };
