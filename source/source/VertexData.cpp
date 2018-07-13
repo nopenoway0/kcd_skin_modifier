@@ -16,7 +16,6 @@ void VertexData::addCoordinates(Coordinates c){
 
 void VertexData::addCoordinates(float x, float y, float z){
 	Coordinates c = {x,y,z};
-	printf("adding coordinate: %f %f %f\n", c.x, c.y, c.z);
 	data.push_back(c);
 }
 
