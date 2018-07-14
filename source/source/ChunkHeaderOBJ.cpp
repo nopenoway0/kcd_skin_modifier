@@ -1,4 +1,5 @@
 #include "ChunkHeaderOBJ.hpp"
+#include <string>
 using namespace std;
 
 ChunkHeaderOBJ::ChunkHeaderOBJ() : ChunkHeader(){
